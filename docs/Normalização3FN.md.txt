@@ -1,0 +1,38 @@
+# Normalização até a 3FN — 
+
+ 1FN 
+
+- Cada campo tem que ter um valor simples, nada de listas ou valores misturados.  
+- Exemplo:  
+  Na tabela **ProdutoVariante**, cor e tamanho ficam em colunas separadas, nada de juntar eles numa lista.
+
+ 2FN 
+
+- Todos os campos que não são chave têm que depender da chave toda, não só de parte dela.  
+- Exemplo:  
+  Na tabela **PedidoItem**, as colunas `quantidade`, `preco_unitario` e `subtotal` dependem da chave composta `(id_pedido, id_variante)`.  
+- Não pode ter campo que dependa só de parte da chave.
+
+ 3FN 
+
+- Não pode ter dependência indireta: um campo não-chave não pode depender de outro campo que não seja chave.  
+- Exemplo:  
+  Na tabela **Produto**, guardamos só o `id_categoria`.  
+  O nome da categoria está só na tabela **Categoria**, assim não repetimos info.
+
+ Dependências funcionais por tabela
+
+| Tabela          | Dependências Funcionais                                    | Observações                                                                                      |
+|-----------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| Categoria       | `id_categoria → nome_categoria`                            | Cada categoria tem um nome único.                                                               |
+| Produto         | `id_produto → nome, id_categoria`                          | `id_categoria` é chave estrangeira; nome da categoria só está na tabela Categoria.              |
+| ProdutoVariante | `(id_variante) → id_produto, sku, cor, tamanho, estoque`  | `sku` é único. `cor` e `tamanho` são valores simples.                                          |
+| Pedido          | `id_pedido → id_cliente, data_pedido`                      |                                                                                                 |
+| PedidoItem      | `(id_pedido, id_variante) → quantidade, preco_unitario, subtotal` | `subtotal` é derivado (quantidade * preco_unitario), mas guardamos para histórico. Pode usar trigger para atualizar.|
+
+ Sobre atributos derivados
+
+- O campo **subtotal** em **PedidoItem** é derivado, porque dá pra calcular com quantidade vezes preço unitário.  
+- Mesmo assim, ele fica salvo para manter o valor correto caso o preço mude depois.  
+- Dá pra criar uma trigger para calcular ou conferir esse valor sempre que mudar o pedido.
+
