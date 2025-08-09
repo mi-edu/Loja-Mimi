@@ -44,7 +44,7 @@ LIMIT 5;
 
 
 
-## Autor
+## Autora
 Milena Eduarda 
 2°D
 Milena.gabriel.santos@escola.pr.gov.br
