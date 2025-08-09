@@ -1,0 +1,99 @@
+Table Cliente {
+  id_cliente int [pk, increment]
+  nome varchar(150)
+  email varchar(150) [unique]
+  telefone varchar(30)
+  data_cadastro datetime
+}
+
+Table Endereco {
+  id_endereco int [pk, increment]
+  id_cliente int [ref: > Cliente.id_cliente]
+  apelido varchar(50)
+  logradouro varchar(200)
+  numero varchar(20)
+  complemento varchar(100)
+  bairro varchar(100)
+  cidade varchar(100)
+  estado varchar(50)
+  cep varchar(20)
+  principal boolean
+}
+
+Table Categoria {
+  id_categoria int [pk, increment]
+  nome varchar(100) [unique]
+  descricao text
+}
+
+Table Produto {
+  id_produto int [pk, increment]
+  nome varchar(200)
+  descricao text
+  id_categoria int [ref: > Categoria.id_categoria]
+  preco_base decimal(10,2)
+  ativo boolean
+  criado_em datetime
+}
+
+Table ProdutoVariante {
+  id_variante int [pk, increment]
+  id_produto int [ref: > Produto.id_produto]
+  sku varchar(50) [unique]
+  cor varchar(50)
+  tamanho varchar(10)
+  preco decimal(10,2)
+  estoque int
+  imagem_principal varchar(255)
+}
+
+Table ImagemProduto {
+  id_imagem int [pk, increment]
+  id_produto int [ref: > Produto.id_produto]
+  url varchar(255)
+  descricao varchar(255)
+}
+
+Table Fornecedor {
+  id_fornecedor int [pk, increment]
+  nome varchar(150)
+  contato varchar(100)
+}
+
+Table Pedido {
+  id_pedido int [pk, increment]
+  id_cliente int [ref: > Cliente.id_cliente]
+  id_endereco int [ref: > Endereco.id_endereco]
+  data_pedido datetime
+  status enum('novo','confirmado','enviado','entregue','cancelado','devolucao')
+  total decimal(10,2)
+}
+
+Table PedidoItem {
+  id_item int [pk, increment]
+  id_pedido int [ref: > Pedido.id_pedido]
+  id_variante int [ref: > ProdutoVariante.id_variante]
+  quantidade int
+  preco_unitario decimal(10,2)
+  subtotal decimal(10,2)
+}
+
+Table Pagamento {
+  id_pagamento int [pk, increment]
+  id_pedido int [ref: > Pedido.id_pedido]
+  metodo enum('cartao','boleto','pix','paypal')
+  status enum('pendente','aprovado','recusado','estornado')
+  valor decimal(10,2)
+  data_pagamento datetime
+  transacao_id varchar(150)
+}
+
+Table EstoqueMovimento {
+  id_movimento int [pk, increment]
+  id_variante int [ref: > ProdutoVariante.id_variante]
+  tipo enum('entrada','saida','ajuste')
+  quantidade int
+  data_movimento datetime
+  referencia varchar(150)
+}
+
