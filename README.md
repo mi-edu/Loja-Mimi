@@ -32,6 +32,7 @@ As tabelas são relacionadas com chaves estrangeiras garantindo integridade refe
 Exemplos de consultas realizadas:
 
 -- Produtos mais vendidos
+
 SELECT p.id_produto, p.nome, SUM(pi.quantidade) AS total_vendido
 FROM PedidoItem pi
 JOIN ProdutoVariante pv ON pi.id_variante = pv.id_variante
