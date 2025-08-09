@@ -1,0 +1,37 @@
+USE loja_Mimi;
+
+DELETE FROM ProdutoVariante WHERE 1=1;
+DELETE FROM ImagemProduto WHERE 1=1;
+DELETE FROM Pedido WHERE 1=1;
+DELETE FROM Produto WHERE 1=1;
+DELETE FROM Categoria WHERE 1=1;
+DELETE FROM Fornecedor WHERE 1=1;
+
+
+INSERT INTO Categoria (nome, descricao) VALUES 
+('Camisas', 'Camisas masculinas e femininas'),
+('Calças', 'Calças jeans e sociais'),
+('Acessórios', 'Bonés, cintos e bolsas');
+
+
+INSERT INTO Produto (nome, descricao, id_categoria, preco_base, ativo, criado_em) VALUES
+('Camisa Polo', 'Camisa polo azul', 1, 79.90, TRUE, NOW()),
+('Calça Jeans', 'Calça jeans feminina', 2, 120.00, TRUE, NOW()),
+('Boné Esportivo', 'Boné com logo', 3, 45.50, TRUE, NOW());
+
+INSERT INTO ProdutoVariante (id_produto, sku, cor, tamanho, preco, estoque, imagem_principal) VALUES
+(1, 'SKU001-AZ-P', 'Azul', 'P', 79.90, 15, 'url_imagem_1'),
+(1, 'SKU002-AZ-M', 'Azul', 'M', 79.90, 10, 'url_imagem_2'),
+(2, 'SKU003-JE-M', 'Jeans', 'M', 120.00, 8, 'url_imagem_3');
+
+
+INSERT INTO ImagemProduto (id_produto, url, descricao) VALUES
+(1, 'url_imagem_1', 'Imagem principal camisa polo azul'),
+(2, 'url_imagem_2', 'Imagem principal calça jeans'),
+(3, 'url_imagem_3', 'Imagem principal boné esportivo');
+
+
+INSERT INTO Fornecedor (nome, contato) VALUES
+('Fornecedor A', 'contato@fornecedora.com'),
+('Fornecedor B', 'contato@fornecedorb.com');
+
